@@ -1,0 +1,20 @@
+def is_parking_full(cars, n):
+    events = []
+    for car in cars:
+        tin, tout, place_from, place_to = car
+        events.append((tin, 1, place_to - place_from + 1))
+        events.append((tout, -1, place_to - place_from + 1))
+    events.sort()
+    occupied = 0
+    now_cars = 0
+    min_cars = len(cars) + 1
+    for i in range(len(events)):
+        if events[i][1] == -1:
+            occupied -= events[i][2]
+            now_cars -= 1
+        elif events[i][1] == 1:
+            occupied += events[i][2]
+            now_cars += 1
+        if occupied == n:
+            min_cars = min(min_cars, now_cars)
+    return min_cars
